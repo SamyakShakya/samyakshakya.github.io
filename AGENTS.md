@@ -1,88 +1,67 @@
 # Portfolio — Samyak Shakya
 
 Personal portfolio site for Samyak Shakya (QA engineer & seasonal wedding photographer,
-Kathmandu). The end goal is a static site hosted on **GitHub Pages** behind the custom
+Kathmandu). Static site, no build step, hosted on **GitHub Pages** behind the custom
 domain **shakyasamyak.com.np**.
 
 ## Repository layout
 
-- `index.html` — the entire site, exported as a self-contained "bundled" artifact.
-  It is NOT plain HTML: the real page markup, CSS, and JS are stored as
-  base64/zlib-compressed payloads inside `<script type="__bundler/manifest">` and
-  `<script type="__bundler/template">` tags, and a loader script unpacks them into
-  blob URLs at runtime. The visible ~389 lines are mostly the loader.
-- `AGENTS.md` — this file.
+- `index.html` — the whole site: one page with a CSS-only QA/Photographer mode toggle.
+  Page-specific CSS lives in its inline `<style>`; a small inline script handles the
+  contact form and a baseline-grid debug overlay.
+- `styles.css` — design-system stylesheet (colors, spacing, `.btn`, `.tag`, `.seg`,
+  `.nav`, form fields). Shared tokens are CSS variables on `:root`.
+- `fonts/` — Archivo variable font, three unicode-range subsets (latin, latin-ext,
+  vietnamese) shared by all weights. Referenced from `@font-face` in `styles.css`.
+- `assets/` — (to be added) wedding photos, résumé PDF lives at repo root.
+- `CNAME` — custom domain for GitHub Pages; must contain exactly `shakyasamyak.com.np`.
 
-There is no build system, package.json, or framework. Everything is static.
+The original Claude-artifact export this site was unbundled from is preserved in git
+history (first commit).
 
-## Working with the bundle
+## Conventions
 
-Do not hand-edit the base64 payloads. To change page content or styles:
-
-1. Extract: parse the JSON inside `script[type="__bundler/template"]` (the page HTML,
-   ~13.6 KB) and `script[type="__bundler/manifest"]` (a `{uuid: {mime, compressed,
-   data}}` map; `data` is base64, `compressed: true` means raw zlib — Python:
-   `zlib.decompress(base64.b64decode(data))`).
-2. Edit the extracted template/CSS/JS.
-3. Either re-pack (reverse the steps: recompress, re-base64, re-embed the JSON), or —
-   preferred for this repo's future — **unbundle permanently** into plain
-   `index.html` + `styles.css` + `site.js` + `assets/` so the site is crawlable,
-   diff-able, and editable without the extract/re-pack dance.
-
-Bundle contents (current):
-- Template: page markup (hero, QA/Photographer mode toggle, feature rows, tools,
-  résumé banner, photo gallery, contact form, footer).
-- CSS (~337 KB): design-system stylesheet; the bulk is 9 embedded `@font-face`
-  Archivo font payloads.
-- JS: design-system runtime + `<image-slot>` custom element (user-fillable image
-  placeholders — all six gallery slots and the lead photo are still empty).
+- No framework, no build system, no dependencies. Keep it that way — plain HTML/CSS
+  with minimal vanilla JS.
+- Vertical rhythm is a 28px baseline grid (`--leading`); page CSS aligns to it with
+  `text-box: trim-both`. Press `b` on the page (or add `?baselines` to the URL) to
+  see the grid overlay when adjusting spacing.
+- The QA/Photographer toggle is pure CSS (`body:has(#mode-qa:checked)` hides the
+  other panel) — don't reintroduce JS for it.
+- Photo placeholders are `<div class="ph">` boxes; each has an adjacent HTML comment
+  showing the `<img>` line to swap in when a real photo lands. Photos should go in
+  `assets/`, compressed to roughly 200–400 KB (WebP or JPEG), `loading="lazy"`,
+  meaningful `alt` text.
 
 ## Local preview
-
-No server needed for the bundled file — open `index.html` directly, or:
 
 ```sh
 python3 -m http.server 8000   # then http://localhost:8000
 ```
 
-The page shows "Unpacking…" briefly, then renders. JavaScript is required
-(a `<noscript>` notice exists). Press `b` on the page to toggle a baseline grid
-(debug aid); `?baselines` in the URL does the same.
-
-## Site structure & behavior
-
-- Single page, two "modes" switched by a CSS-only radio toggle
-  (`body:has(#mode-qa:checked)` / `#mode-photo`) — QA panel is default.
-- Anchors: `#work` (mode toggle), `#skills` (QA features), `#contact`.
-- Contact form is inert (`onsubmit="return false"`) — no backend yet.
-- Both "Download résumé" buttons point to `#` — the résumé PDF does not exist
-  in the repo yet.
+(Opening `index.html` directly also works; fonts load fine from file://.)
 
 ## Deployment (GitHub Pages + custom domain)
 
-Target setup:
-
-1. GitHub repo (e.g. `samyak/portfolio` or `<user>.github.io`), default branch `main`,
-   Pages enabled: Settings → Pages → Deploy from branch → `main` / root.
-2. `CNAME` file at repo root containing exactly: `shakyasamyak.com.np`
-3. DNS at the domain's nameserver (`.com.np` domains from register.com.np require
-   external nameservers — Cloudflare free tier works well):
+1. Push to GitHub, then Settings → Pages → Deploy from branch → `main` / root.
+2. Set the custom domain to `shakyasamyak.com.np` (the `CNAME` file must match).
+3. DNS — `.com.np` domains from register.com.np require external nameservers
+   (Cloudflare free tier is the usual choice):
    - Apex `shakyasamyak.com.np` → A records `185.199.108.153`, `185.199.109.153`,
      `185.199.110.153`, `185.199.111.153` (optionally AAAA `2606:50c0:8000::153`
      through `:8003::153`).
    - `www` → CNAME `<github-username>.github.io`.
-   - If using Cloudflare, set records to DNS-only (grey cloud) until GitHub issues
-     the TLS cert, then proxying is optional.
-4. In GitHub Pages settings, set the custom domain and enable "Enforce HTTPS"
-   (available once the cert is provisioned, usually within an hour of DNS resolving).
+   - On Cloudflare, keep records DNS-only (grey cloud) until GitHub issues the TLS
+     cert, then enable "Enforce HTTPS" in Pages settings.
+4. Email at the domain (`hello@shakyasamyak.com.np`) is separate from Pages —
+   Cloudflare Email Routing can forward it to a personal inbox for free.
 
-## Known TODOs before the site is launch-ready
+## Launch checklist (remaining)
 
-- Fill the 7 `<image-slot>` placeholders with real wedding photos (or hide the
-  Photographer panel until photos exist).
-- Add the résumé PDF and point both download buttons at it.
-- Wire the contact form to a backend (Formspree/Web3Forms/Netlify-style endpoint)
-  or replace it with a plain `mailto:` link.
-- Add SEO/meta: `<meta name="description">`, Open Graph/Twitter tags, favicon,
-  canonical URL — easiest after unbundling to plain HTML.
-- Mobile nav: below 560 px the nav links are hidden with no replacement menu.
+- [ ] Add `resume.pdf` at repo root — all three résumé buttons already point to it.
+- [ ] Add wedding photos to `assets/` and swap the seven `.ph` placeholders for
+      `<img>` tags (see inline comments in `index.html`).
+- [ ] Add an `og:image` (a 1200×630 card) once a lead photo exists.
+- [ ] Verify `hello@shakyasamyak.com.np` actually receives mail before launch.
+- [ ] Optional: replace the mailto contact form with a real endpoint
+      (Formspree/Web3Forms) if mailto proves unreliable for visitors.
