@@ -171,7 +171,7 @@ body[data-baselines]::after {
 <nav class="nav">
   <span class="nav-brand">Samyak Shakya</span>
   <a href="#work">Work</a>
-  <a href="#skills">Skills</a>
+  <a href="#skills-qa" data-skills-link>Skills</a>
   <a href="#contact">Contact</a>
   <a href="resume.pdf" class="btn btn-primary" download>Résumé</a>
 </nav>
@@ -199,7 +199,7 @@ body[data-baselines]::after {
   <hr class="rule2">
 
   <section id="panel-qa">
-    <section class="features" id="skills">
+    <section class="features" id="skills-qa">
       <span class="kicker">Manual QA &amp; API testing</span>
       <div class="feature">
         <p class="f-num">01</p>
@@ -262,7 +262,7 @@ body[data-baselines]::after {
       <figure class="grayscale"><img src="assets/wedding-6.jpg" alt="Bride and groom with wedding rings" loading="lazy"></figure>
     </section>
 
-    <section class="tools">
+    <section class="tools" id="skills-photo">
       <span class="kicker">Editing &amp; post-production</span>
       <div class="row">
         <span class="tag tag-accent">Photoshop</span>
@@ -315,6 +315,16 @@ body[data-baselines]::after {
     location.href = 'mailto:hello@shakyasamyak.com.np' +
       '?subject=' + encodeURIComponent(subject) +
       '&body=' + encodeURIComponent(msg + sig);
+  });
+
+  // "Skills" nav link targets whichever mode's skills section is currently
+  // visible — the other one is display:none, so a plain #skills-qa/-photo
+  // anchor would silently fail to scroll under the hidden panel's mode.
+  document.querySelector('[data-skills-link]').addEventListener('click', (e) => {
+    e.preventDefault();
+    const targetId = document.getElementById('mode-photo').checked ? 'skills-photo' : 'skills-qa';
+    document.getElementById(targetId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    history.replaceState(null, '', '#' + targetId);
   });
 
   // Baseline-grid debug overlay: press "b" or add ?baselines to the URL.
