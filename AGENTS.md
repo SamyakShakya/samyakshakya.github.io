@@ -59,8 +59,9 @@ python3 -m http.server 8000   # then http://localhost:8000
 ## Launch checklist (remaining)
 
 - [ ] Add `resume.pdf` at repo root — all three résumé buttons already point to it.
-- [ ] Add wedding photos to `assets/` and swap the seven `.ph` placeholders for
-      `<img>` tags (see inline comments in `index.html`).
+- [ ] Replace the stock Unsplash placeholders in `assets/` with real photos —
+      overwrite each `wedding-*.jpg` keeping the same filename; no HTML changes
+      needed.
 - [ ] Add an `og:image` (a 1200×630 card) once a lead photo exists.
 - [ ] Verify `hello@shakyasamyak.com.np` actually receives mail before launch.
 - [ ] Optional: replace the mailto contact form with a real endpoint
