@@ -10,7 +10,9 @@
 <meta property="og:url" content="https://shakyasamyak.com.np/">
 <meta property="og:title" content="Samyak Shakya — QA Engineer &amp; Wedding Photographer">
 <meta property="og:description" content="Manual QA and API testing engineer in Kathmandu, building automated test coverage — and a seasonal wedding photographer and editor.">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://shakyasamyak.com.np/assets/wedding-lead.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://shakyasamyak.com.np/assets/wedding-lead.jpg">
 <meta name="theme-color" content="#f3f2f2">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f3f2f2'/%3E%3Ctext x='50' y='70' font-family='Archivo,sans-serif' font-size='52' font-weight='800' fill='%23ec3013' text-anchor='middle'%3ESS%3C/text%3E%3C/svg%3E">
 <link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -120,20 +122,57 @@ body:has(#mode-qa:checked) #panel-photo { display: none; }
 .split-figure .ph, .split-figure img { width: 100%; aspect-ratio: 951 / 665; }
 @media (max-width: 720px) { .split { grid-template-columns: 1fr; } .split-figure { order: -1; } }
 
-/* — gallery grid — */
+/* — gallery grid & lightbox — */
 .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3);
   padding: 0 0 calc(3 * var(--leading)); }
-.gallery figure { margin: 0; }
+.gallery figure, .split-figure { margin: 0; overflow: hidden; }
 .gallery .ph, .gallery img { width: 100%; aspect-ratio: 4 / 5; }
+.gallery figure img, .split-figure img {
+  display: block; object-fit: cover; cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.gallery figure:hover img, .split-figure:hover img { transform: scale(1.03); }
 @media (max-width: 880px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px) { .gallery { grid-template-columns: 1fr; } }
 
 /* photo placeholders — swap each .ph for an <img> as real photos land */
-.split-figure img, .gallery img { display: block; object-fit: cover; }
 .ph { display: grid; place-items: center;
   background: var(--color-neutral-200); border: 1px dashed var(--color-neutral-400); box-sizing: border-box; }
 .ph::after { content: attr(data-label); font-size: 12px; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--color-neutral-600); }
+
+.lightbox {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(18, 16, 15, 0.92);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s ease;
+  padding: 24px;
+}
+.lightbox.is-open { opacity: 1; pointer-events: auto; }
+.lightbox-content {
+  position: relative; max-width: 90vw; max-height: 82vh;
+  display: flex; flex-direction: column; align-items: center;
+}
+.lightbox-img {
+  max-width: 100%; max-height: 75vh; object-fit: contain;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+}
+.lightbox-caption {
+  margin-top: 14px; font-size: 14px; color: #eae7e7; text-align: center;
+  font-family: var(--font-body); letter-spacing: 0.01em;
+}
+.lightbox-btn {
+  position: absolute; background: rgba(255,255,255,0.12); border: none;
+  color: #fff; font-size: 20px; width: 44px; height: 44px; cursor: pointer;
+  display: grid; place-items: center; transition: background 0.2s ease;
+  user-select: none;
+}
+.lightbox-btn:hover { background: var(--color-accent); }
+.lightbox-close { top: 20px; right: 24px; font-size: 28px; }
+.lightbox-prev { left: 24px; top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: 24px; top: 50%; transform: translateY(-50%); }
 
 /* — contact — */
 .contact { padding: calc(2.5 * var(--leading)) 0 calc(3.5 * var(--leading)); }
@@ -281,8 +320,10 @@ body[data-baselines]::after {
         <span class="kicker">Get in touch</span>
         <p>Open to QA roles and to booking weddings for the coming season — reach out either way.</p>
         <div class="contact-links">
-          <a href="mailto:hello@shakyasamyak.com.np">hello@shakyasamyak.com.np</a>
+          <a href="mailto:shakyasamyak21@gmail.com">shakyasamyak21@gmail.com</a>
           <a href="https://shakyasamyak.com.np">shakyasamyak.com.np</a>
+          <a href="https://linkedin.com/in/shakyasamyak" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/shakyasamyak" target="_blank" rel="noopener">GitHub</a>
         </div>
       </div>
       <form class="contact-form" id="contact-form">
@@ -291,7 +332,7 @@ body[data-baselines]::after {
           <div class="field"><label for="cf-email">Email</label><input class="input" id="cf-email" type="email" autocomplete="email"></div>
           <div class="field"><label for="cf-msg">Message</label><textarea class="input" id="cf-msg" rows="4" required></textarea></div>
           <button type="submit" class="btn btn-primary btn-block">Send message</button>
-          <p class="form-hint">Opens your email app, addressed to hello@shakyasamyak.com.np.</p>
+          <p class="form-hint">Opens your email app, addressed to shakyasamyak21@gmail.com.</p>
         </div>
       </form>
     </div>
@@ -302,6 +343,17 @@ body[data-baselines]::after {
 <div class="wrap">
   <footer>Samyak Shakya — QA engineer &amp; wedding photographer, Kathmandu.</footer>
 </div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Photo lightbox">
+  <button class="lightbox-btn lightbox-close" id="lightbox-close" aria-label="Close lightbox">&times;</button>
+  <button class="lightbox-btn lightbox-prev" id="lightbox-prev" aria-label="Previous photo">&#10094;</button>
+  <button class="lightbox-btn lightbox-next" id="lightbox-next" aria-label="Next photo">&#10095;</button>
+  <div class="lightbox-content">
+    <img class="lightbox-img" id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+</div>
+
 <script>
 (() => {
   // Contact form → prefilled email; no backend needed on GitHub Pages.
@@ -312,7 +364,7 @@ body[data-baselines]::after {
     const msg = document.getElementById('cf-msg').value.trim();
     const subject = 'Portfolio enquiry' + (name ? ' from ' + name : '');
     const sig = name || email ? '\n\n— ' + [name, email].filter(Boolean).join(', ') : '';
-    location.href = 'mailto:hello@shakyasamyak.com.np' +
+    location.href = 'mailto:shakyasamyak21@gmail.com' +
       '?subject=' + encodeURIComponent(subject) +
       '&body=' + encodeURIComponent(msg + sig);
   });
@@ -327,12 +379,71 @@ body[data-baselines]::after {
     history.replaceState(null, '', '#' + targetId);
   });
 
-  // Baseline-grid debug overlay: press "b" or add ?baselines to the URL.
-  if (new URLSearchParams(location.search).has('baselines')) document.body.setAttribute('data-baselines', '');
+  // Lightbox modal logic for photography gallery
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const galleryImages = Array.from(document.querySelectorAll('.split-figure img, .gallery figure img'));
+  let currentIndex = 0;
+
+  function openLightbox(index) {
+    currentIndex = index;
+    const img = galleryImages[currentIndex];
+    if (!img) return;
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt || '';
+    lightboxCaption.textContent = img.alt || '';
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function showNext() {
+    openLightbox((currentIndex + 1) % galleryImages.length);
+  }
+
+  function showPrev() {
+    openLightbox((currentIndex - 1 + galleryImages.length) % galleryImages.length);
+  }
+
+  galleryImages.forEach((img, idx) => {
+    img.setAttribute('tabindex', '0');
+    img.setAttribute('role', 'button');
+    img.setAttribute('aria-label', 'View larger photo: ' + (img.alt || ''));
+    img.addEventListener('click', () => openLightbox(idx));
+    img.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openLightbox(idx);
+      }
+    });
+  });
+
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  document.getElementById('lightbox-prev').addEventListener('click', showPrev);
+  document.getElementById('lightbox-next').addEventListener('click', showNext);
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
   addEventListener('keydown', (e) => {
-    const t = e.target;
-    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
-    if ((e.key === 'b' || e.key === 'B') && !e.metaKey && !e.ctrlKey && !e.altKey) document.body.toggleAttribute('data-baselines');
+    if (!lightbox.classList.contains('is-open')) {
+      // Baseline-grid debug overlay: press "b" or add ?baselines to the URL.
+      if (new URLSearchParams(location.search).has('baselines')) document.body.setAttribute('data-baselines', '');
+      const t = e.target;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      if ((e.key === 'b' || e.key === 'B') && !e.metaKey && !e.ctrlKey && !e.altKey) document.body.toggleAttribute('data-baselines');
+      return;
+    }
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') showNext();
+    if (e.key === 'ArrowLeft') showPrev();
   });
 })();
 </script>

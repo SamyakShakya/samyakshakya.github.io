@@ -53,7 +53,7 @@ python3 -m http.server 8000   # then http://localhost:8000
    - `www` → CNAME `<github-username>.github.io`.
    - On Cloudflare, keep records DNS-only (grey cloud) until GitHub issues the TLS
      cert, then enable "Enforce HTTPS" in Pages settings.
-4. Email at the domain (`hello@shakyasamyak.com.np`) is separate from Pages —
+4. Email at the domain (`shakyasamyak21@gmail.com`) is separate from Pages —
    Cloudflare Email Routing can forward it to a personal inbox for free.
 
 ## Launch checklist (remaining)
@@ -63,6 +63,6 @@ python3 -m http.server 8000   # then http://localhost:8000
       overwrite each `wedding-*.jpg` keeping the same filename; no HTML changes
       needed.
 - [ ] Add an `og:image` (a 1200×630 card) once a lead photo exists.
-- [ ] Verify `hello@shakyasamyak.com.np` actually receives mail before launch.
+- [ ] Verify `shakyasamyak21@gmail.com` actually receives mail before launch.
 - [ ] Optional: replace the mailto contact form with a real endpoint
       (Formspree/Web3Forms) if mailto proves unreliable for visitors.
