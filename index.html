@@ -14,8 +14,10 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://shakyasamyak.com.np/assets/wedding-lead.jpg">
 <meta name="theme-color" content="#f3f2f2">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f3f2f2'/%3E%3Ctext x='50' y='70' font-family='Archivo,sans-serif' font-size='52' font-weight='800' fill='%23ec3013' text-anchor='middle'%3ESS%3C/text%3E%3C/svg%3E">
-<link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f3f2f2'/%3E%3Ctext x='50' y='70' font-family='Inter,sans-serif' font-size='52' font-weight='800' fill='%23ec3013' text-anchor='middle'%3ESS%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 <style>
 :root {
@@ -286,19 +288,28 @@ body[data-baselines]::after {
         <h2 class="split-title">Shot and edited, start to finish</h2>
         <p class="note">Seasonal wedding photography and post-editing — from the morning prep shots through the reception, culled and color-graded into a gallery couples actually want to look through twice.</p>
       </div>
-      <figure class="split-figure grayscale">
+      <figure class="split-figure grayscale" data-category="ceremony">
         <!-- stock placeholders from Unsplash — overwrite each assets/wedding-*.jpg with your own photo, same filename -->
         <img src="assets/wedding-lead.jpg" alt="Bride and groom at their wedding ceremony" loading="lazy">
       </figure>
     </section>
 
+    <div class="gallery-filter-bar">
+      <div class="seg" role="tablist" aria-label="Filter photography gallery">
+        <button class="seg-btn is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+        <button class="seg-btn" data-filter="ceremony" role="tab" aria-selected="false">Ceremony</button>
+        <button class="seg-btn" data-filter="portraits" role="tab" aria-selected="false">Portraits</button>
+        <button class="seg-btn" data-filter="reception" role="tab" aria-selected="false">Reception</button>
+      </div>
+    </div>
+
     <section class="gallery" aria-label="Featured wedding galleries">
-      <figure class="grayscale"><img src="assets/wedding-1.jpg" alt="Bride and groom holding hands" loading="lazy"></figure>
-      <figure class="grayscale"><img src="assets/wedding-2.jpg" alt="Wedding couple portrait" loading="lazy"></figure>
-      <figure class="grayscale"><img src="assets/wedding-3.jpg" alt="Wedding ceremony moment" loading="lazy"></figure>
-      <figure class="grayscale"><img src="assets/wedding-4.jpg" alt="Couple at their wedding reception" loading="lazy"></figure>
-      <figure class="grayscale"><img src="assets/wedding-5.jpg" alt="Wedding celebration" loading="lazy"></figure>
-      <figure class="grayscale"><img src="assets/wedding-6.jpg" alt="Bride and groom with wedding rings" loading="lazy"></figure>
+      <figure class="grayscale" data-category="portraits"><img src="assets/wedding-1.jpg" alt="Bride and groom holding hands" loading="lazy"></figure>
+      <figure class="grayscale" data-category="portraits"><img src="assets/wedding-2.jpg" alt="Wedding couple portrait" loading="lazy"></figure>
+      <figure class="grayscale" data-category="ceremony"><img src="assets/wedding-3.jpg" alt="Wedding ceremony moment" loading="lazy"></figure>
+      <figure class="grayscale" data-category="reception"><img src="assets/wedding-4.jpg" alt="Couple at their wedding reception" loading="lazy"></figure>
+      <figure class="grayscale" data-category="reception"><img src="assets/wedding-5.jpg" alt="Wedding celebration" loading="lazy"></figure>
+      <figure class="grayscale" data-category="ceremony"><img src="assets/wedding-6.jpg" alt="Bride and groom with wedding rings" loading="lazy"></figure>
     </section>
 
     <section class="tools" id="skills-photo">
@@ -319,13 +330,23 @@ body[data-baselines]::after {
       <div class="contact-info">
         <span class="kicker">Get in touch</span>
         <p>Open to QA roles and to booking weddings for the coming season — reach out either way.</p>
+
         <div class="contact-links">
-          <a href="mailto:shakyasamyak21@gmail.com">shakyasamyak21@gmail.com</a>
-          <a href="https://shakyasamyak.com.np">shakyasamyak.com.np</a>
-          <a href="https://linkedin.com/in/shakyasamyak" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="https://github.com/shakyasamyak" target="_blank" rel="noopener">GitHub</a>
+          <a href="mailto:shakyasamyak21@gmail.com" class="contact-link-row" aria-label="Email Samyak">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span>shakyasamyak21@gmail.com</span>
+          </a>
+          <div class="social-icons-row">
+            <a href="https://www.linkedin.com/in/samyak-shakya" target="_blank" rel="noopener" class="icon-link" title="LinkedIn Profile" aria-label="LinkedIn Profile">
+              <svg width="22" height="22" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.78a1.62 1.62 0 1 0 0 3.24 1.62 1.62 0 0 0 0-3.24z"/></svg>
+            </a>
+            <a href="https://github.com/SamyakShakya" target="_blank" rel="noopener" class="icon-link" title="GitHub Profile" aria-label="GitHub Profile">
+              <svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+            </a>
+          </div>
         </div>
       </div>
+
       <form class="contact-form" id="contact-form">
         <div class="stack">
           <div class="field"><label for="cf-name">Name</label><input class="input" id="cf-name" autocomplete="name"></div>
@@ -356,6 +377,34 @@ body[data-baselines]::after {
 
 <script>
 (() => {
+  // Clear any previously saved dark theme preference
+  document.documentElement.removeAttribute('data-theme');
+  document.body.removeAttribute('data-theme');
+
+  // Gallery Category Filtering
+  const filterBtns = document.querySelectorAll('.gallery-filter-bar [data-filter]');
+  const galleryItems = document.querySelectorAll('.split-figure, .gallery figure');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-selected', 'true');
+      
+      const filter = btn.getAttribute('data-filter');
+      galleryItems.forEach(item => {
+        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+          item.classList.remove('is-hidden');
+        } else {
+          item.classList.add('is-hidden');
+        }
+      });
+    });
+  });
+
   // Contact form → prefilled email; no backend needed on GitHub Pages.
   document.getElementById('contact-form').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -369,9 +418,7 @@ body[data-baselines]::after {
       '&body=' + encodeURIComponent(msg + sig);
   });
 
-  // "Skills" nav link targets whichever mode's skills section is currently
-  // visible — the other one is display:none, so a plain #skills-qa/-photo
-  // anchor would silently fail to scroll under the hidden panel's mode.
+  // "Skills" nav link targets whichever mode's skills section is currently visible
   document.querySelector('[data-skills-link]').addEventListener('click', (e) => {
     e.preventDefault();
     const targetId = document.getElementById('mode-photo').checked ? 'skills-photo' : 'skills-qa';
@@ -383,12 +430,17 @@ body[data-baselines]::after {
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
   const lightboxCaption = document.getElementById('lightbox-caption');
-  const galleryImages = Array.from(document.querySelectorAll('.split-figure img, .gallery figure img'));
   let currentIndex = 0;
 
-  function openLightbox(index) {
-    currentIndex = index;
-    const img = galleryImages[currentIndex];
+  function getVisibleImages() {
+    return Array.from(document.querySelectorAll('.split-figure:not(.is-hidden) img, .gallery figure:not(.is-hidden) img'));
+  }
+
+  function openLightbox(imgElement) {
+    const visibleImages = getVisibleImages();
+    currentIndex = visibleImages.indexOf(imgElement);
+    if (currentIndex === -1) currentIndex = 0;
+    const img = visibleImages[currentIndex];
     if (!img) return;
     lightboxImg.src = img.src;
     lightboxImg.alt = img.alt || '';
@@ -405,22 +457,28 @@ body[data-baselines]::after {
   }
 
   function showNext() {
-    openLightbox((currentIndex + 1) % galleryImages.length);
+    const visibleImages = getVisibleImages();
+    if (!visibleImages.length) return;
+    currentIndex = (currentIndex + 1) % visibleImages.length;
+    openLightbox(visibleImages[currentIndex]);
   }
 
   function showPrev() {
-    openLightbox((currentIndex - 1 + galleryImages.length) % galleryImages.length);
+    const visibleImages = getVisibleImages();
+    if (!visibleImages.length) return;
+    currentIndex = (currentIndex - 1 + visibleImages.length) % visibleImages.length;
+    openLightbox(visibleImages[currentIndex]);
   }
 
-  galleryImages.forEach((img, idx) => {
+  document.querySelectorAll('.split-figure img, .gallery figure img').forEach((img) => {
     img.setAttribute('tabindex', '0');
     img.setAttribute('role', 'button');
     img.setAttribute('aria-label', 'View larger photo: ' + (img.alt || ''));
-    img.addEventListener('click', () => openLightbox(idx));
+    img.addEventListener('click', () => openLightbox(img));
     img.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        openLightbox(idx);
+        openLightbox(img);
       }
     });
   });
